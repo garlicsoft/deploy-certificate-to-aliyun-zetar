@@ -20,15 +20,20 @@
 
 ### 第二步：配置阿里云访问密钥（AK/SK）
 
-为了能让 GitHub 的脚本有权限操作您的阿里云账户，您需要提供一个具有相应权限的 AccessKey。
+为了能让 GitHub 的脚本有权限操作您的阿里云账户，您需要分别提供用于 DNS 验证和 CDN 部署的 AccessKey（可使用同一 RAM 用户，也可按最小权限拆分为两个用户）。
+
+**DNS 验证（申请证书）**
 
 1. 登录[阿里云控制台](https://homenew.console.aliyun.com/)，进入 **访问控制 (RAM)** 页面
-2. 创建一个专用于此项目的用户（推荐，出于安全最佳实践）
-3. 为该用户授权以下策略权限：
-   - `AliyunDNSFullAccess`（管理DNS解析，用于自动验证域名所有权）
-   - `AliyunCDNFullAccess`（管理CDN，用于上传和部署证书）
-   - `AliyunYundunCertFullAccess`（管理SSL证书服务）
-4. 为这个用户创建一个 **AccessKey (AK/SK)**，并妥善保存
+2. 创建专用于 DNS 的用户（推荐）
+3. 授权策略：`AliyunDNSFullAccess`（管理 DNS 解析，用于自动验证域名所有权）
+4. 创建 **AccessKey (AK/SK)**，对应 GitHub Secrets 中的 `ALIYUN_DNS_ACCESS_KEY_ID` / `ALIYUN_DNS_ACCESS_KEY_SECRET`
+
+**CDN 部署（上传证书）**
+
+1. 创建专用于 CDN 的用户（推荐）
+2. 授权策略：`AliyunCDNFullAccess`（管理 CDN，用于上传和部署证书）
+3. 创建 **AccessKey (AK/SK)**，对应 GitHub Secrets 中的 `ALIYUN_CDN_ACCESS_KEY_ID` / `ALIYUN_CDN_ACCESS_KEY_SECRET`
 
 ### 第三步：在 GitHub 仓库中设置秘密变量
 
@@ -39,8 +44,10 @@
 
 | 变量名                     | 说明                                               | 示例值                         |
 | :------------------------- | :------------------------------------------------- | :----------------------------- |
-| `ALIYUN_ACCESS_KEY_ID`     | 阿里云 AccessKey ID                                | `LTAI5txxxxxxxxxxxxx`          |
-| `ALIYUN_ACCESS_KEY_SECRET` | 阿里云 AccessKey Secret                            | `h6J9Zxxxxxxxxxxxxxxxxxxxx`    |
+| `ALIYUN_DNS_ACCESS_KEY_ID`     | DNS 验证用 AccessKey ID                            | `LTAI5txxxxxxxxxxxxx`          |
+| `ALIYUN_DNS_ACCESS_KEY_SECRET` | DNS 验证用 AccessKey Secret                        | `h6J9Zxxxxxxxxxxxxxxxxxxxx`    |
+| `ALIYUN_CDN_ACCESS_KEY_ID`     | CDN 部署用 AccessKey ID                            | `LTAI5txxxxxxxxxxxxx`          |
+| `ALIYUN_CDN_ACCESS_KEY_SECRET` | CDN 部署用 AccessKey Secret                        | `h6J9Zxxxxxxxxxxxxxxxxxxxx`    |
 | `DOMAINS`                  | 主域名，多个用**英文逗号**隔开                     | `example.com,test.org`         |
 | `ALIYUN_CDN_DOMAINS`       | CDN域名，与DOMAINS顺序对应，多个用**英文逗号**隔开 | `cdn.example.com,img.test.org` |
 | `EMAIL`                    | 接收通知的邮箱地址                                 | `your-email@example.com`       |

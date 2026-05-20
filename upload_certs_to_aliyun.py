@@ -41,8 +41,8 @@ def upload_certificate(client, domain_name, cert_path, key_path):
     print(str(response, encoding='utf-8'))
 
 def main():
-    access_key_id = get_env_var('ALIYUN_ACCESS_KEY_ID')
-    access_key_secret = get_env_var('ALIYUN_ACCESS_KEY_SECRET')
+    access_key_id = get_env_var('ALIYUN_CDN_ACCESS_KEY_ID')
+    access_key_secret = get_env_var('ALIYUN_CDN_ACCESS_KEY_SECRET')
     domains = get_env_var('DOMAINS').split(',')
     cdn_domains = get_env_var('ALIYUN_CDN_DOMAINS').split(',')
 
