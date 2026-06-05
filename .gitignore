@@ -1,3 +1,7 @@
+# 本地秘密配置备份（含 AccessKey，禁止提交）
+github-secrets.local.md
+set-github-secrets.local.sh
+
 ### AL ###
 #Template for AL projects for Dynamics 365 Business Central
 #launch.json folder
